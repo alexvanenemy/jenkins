@@ -1,0 +1,23 @@
+pipeline {
+    agent any
+    environment {
+        repo = "alexvanenemy/test-devops"
+    }
+    stages{
+        stage('create image') {
+            steps {
+                sh "docker build -t repo https://github.com/alexvanenemy/jenkins.git"
+            }
+        }
+        stage('push image') {
+            steps {
+                script {
+                    withCredentials([usernameColonPassword(credentialsId: 'dockerhub', variable: 'dockerhub')]) {
+                        sh 'docker login $(dockerhub)'
+                    }
+                }
+                sh 'docker push ${repo}'
+            }
+        }
+    }
+}
