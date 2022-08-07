@@ -6,7 +6,7 @@ pipeline {
     stages{
         stage('create image') {
             steps {
-                sh "docker build -t repo https://github.com/alexvanenemy/jenkins.git"
+                sh "docker build -t ${repo} https://github.com/alexvanenemy/jenkins.git"
             }
         }
         stage('push image') {
